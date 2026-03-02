@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
         :root {
             --hydrangea-blue: #7BA7D9;
             --hydrangea-purple: #9B7ED8;
@@ -21,18 +20,14 @@
             --dark: #2D2042;
             --soft-white: #FEFCFA;
         }
-
         html { scroll-behavior: smooth; }
-
         body {
             font-family: 'Inter', sans-serif;
             background: var(--cream);
             color: var(--dark);
             overflow-x: hidden;
         }
-
         h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
-
         /* === ANIMATED BACKGROUND BLOBS === */
         .blob {
             position: absolute;
@@ -45,13 +40,11 @@
         .blob-1 { width: 400px; height: 400px; background: var(--hydrangea-purple); top: -100px; left: -100px; animation-delay: 0s; }
         .blob-2 { width: 300px; height: 300px; background: var(--hydrangea-pink); top: 200px; right: -50px; animation-delay: 2s; }
         .blob-3 { width: 350px; height: 350px; background: var(--hydrangea-blue); bottom: -100px; left: 30%; animation-delay: 4s; }
-
         @keyframes blobFloat {
             0%, 100% { transform: translate(0, 0) scale(1); }
             33% { transform: translate(30px, -30px) scale(1.05); }
             66% { transform: translate(-20px, 20px) scale(0.95); }
         }
-
         /* === NAVBAR === */
         .navbar {
             position: fixed;
@@ -85,7 +78,6 @@
         }
         .nav-link:hover::after { width: 100%; }
         .nav-link:hover { color: var(--hydrangea-purple); }
-
         .logo-text {
             font-family: 'Playfair Display', serif;
             font-weight: 700;
@@ -95,15 +87,98 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
         /* === HERO === */
         .hero {
             min-height: 100vh;
+            min-height: 100svh;
             display: flex;
             align-items: center;
             position: relative;
             overflow: hidden;
             background: linear-gradient(160deg, #F3E8FF 0%, #FFF0F5 30%, #E8F4FD 60%, #FFF9F5 100%);
+        }
+        /* Hero visual - background layer that fills hero */
+        .hero-visual-bg {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .hero-flower-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            animation: fadeUp 1s ease-out 0.5s both;
+        }
+        .hero-flower-circle {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid;
+            animation: circleRotate 20s linear infinite;
+        }
+        .hero-flower-circle:nth-child(1) {
+            inset: 5%; border-color: rgba(155, 126, 216, 0.2);
+        }
+        .hero-flower-circle:nth-child(2) {
+            inset: 15%; border-color: rgba(232, 160, 191, 0.2);
+            animation-direction: reverse;
+            animation-duration: 15s;
+        }
+        .hero-flower-circle:nth-child(3) {
+            inset: 25%; border-color: rgba(123, 167, 217, 0.2);
+            animation-duration: 25s;
+        }
+        @keyframes circleRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .hero-emoji {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10rem;
+            filter: drop-shadow(0 20px 40px rgba(155, 126, 216, 0.3));
+            animation: emojiPulse 3s ease-in-out infinite;
+        }
+        @keyframes emojiPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+        /* Hero content - text over visual */
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 6rem 1.5rem 2rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        .hero-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        /* Desktop: push visual to the right side */
+        .hero-desktop-spacer {
+            flex: 1;
+            min-width: 280px;
+        }
+        .hero-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(155,126,216,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--hydrangea-purple);
+            margin-bottom: 1.5rem;
+            animation: fadeUp 1s ease-out 0.1s both;
         }
         .hero-title {
             font-size: clamp(2.5rem, 6vw, 5rem);
@@ -115,35 +190,6 @@
             background-clip: text;
             animation: titleReveal 1.2s ease-out;
         }
-        .hero-badge {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background: rgba(155,126,216,0.12);
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--hydrangea-purple);
-            margin-bottom: 1.5rem;
-            animation: fadeUp 1s ease-out 0.1s both;
-        }
-        .hero-inner {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
-            padding-top: 6rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 2rem;
-            width: 100%;
-            position: relative;
-        }
-        .hero-text {
-            flex: 1;
-            min-width: 300px;
-            position: relative;
-            z-index: 2;
-        }
         .hero-subtitle {
             font-size: clamp(1rem, 2vw, 1.3rem);
             color: #6B5B7B;
@@ -151,65 +197,6 @@
             line-height: 1.7;
             margin: 1.5rem 0 2rem;
             animation: fadeUp 1s ease-out 0.3s both;
-        }
-        .hero-visual {
-            flex: 1;
-            min-width: 280px;
-            display: flex;
-            justify-content: center;
-        }
-
-        /* === HERO MOBILE LAYOUT === */
-        @media (max-width: 768px) {
-            .hero {
-                min-height: 100svh;
-            }
-            .hero-inner {
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                text-align: center;
-                padding-top: 5rem;
-                padding-bottom: 3rem;
-                min-height: 100svh;
-                position: relative;
-            }
-            .hero-text {
-                min-width: unset;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                z-index: 2;
-            }
-            .hero-subtitle {
-                max-width: 400px;
-                margin: 1rem 0 1.5rem;
-            }
-            .hero-visual {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                min-width: unset;
-                width: 100%;
-                height: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 0;
-                pointer-events: none;
-                opacity: 0.18;
-            }
-            .hero-visual .hero-flower-container {
-                max-width: 380px;
-                width: 85%;
-            }
-            .hero-visual .hero-emoji {
-                font-size: 8rem;
-            }
-            .hero-title {
-                font-size: clamp(2.2rem, 10vw, 3.5rem);
-            }
         }
         @keyframes titleReveal {
             from { opacity: 0; transform: translateY(40px); }
@@ -219,7 +206,6 @@
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         .cta-btn {
             display: inline-flex;
             align-items: center;
@@ -251,7 +237,60 @@
             transform: translateY(-3px) scale(1.03);
             box-shadow: 0 12px 40px rgba(155, 126, 216, 0.5);
         }
-
+        /* === DESKTOP: visual positioned right === */
+        @media (min-width: 769px) {
+            .hero-visual-bg {
+                justify-content: flex-end;
+                padding-right: 5%;
+            }
+            .hero-flower-container {
+                opacity: 1;
+            }
+        }
+        /* === MOBILE HERO === */
+        @media (max-width: 768px) {
+            .hero-content {
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                padding-top: 5rem;
+                padding-bottom: 3rem;
+                min-height: 100svh;
+            }
+            .hero-text {
+                min-width: unset;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .hero-subtitle {
+                max-width: 400px;
+                margin: 1rem 0 1.5rem;
+            }
+            .hero-title {
+                font-size: clamp(2.2rem, 10vw, 3.5rem);
+            }
+            /* Hide the spacer on mobile */
+            .hero-desktop-spacer {
+                display: none;
+            }
+            /* Full-screen background visual on mobile */
+            .hero-visual-bg {
+                justify-content: center;
+                align-items: center;
+            }
+            .hero-flower-container {
+                width: 90vw;
+                height: 90vw;
+                max-width: 450px;
+                max-height: 450px;
+                opacity: 0.15;
+            }
+            .hero-emoji {
+                font-size: 8rem;
+            }
+        }
         /* Floating petals */
         .petal {
             position: absolute;
@@ -260,6 +299,7 @@
             opacity: 0.5;
             animation: petalFall linear infinite;
             pointer-events: none;
+            z-index: 0;
         }
         @keyframes petalFall {
             0% { transform: translateY(-100px) rotate(0deg) scale(0); opacity: 0; }
@@ -267,50 +307,6 @@
             90% { opacity: 0.3; }
             100% { transform: translateY(calc(100vh + 100px)) rotate(720deg) scale(0.5); opacity: 0; }
         }
-
-        /* Hero flower decoration */
-        .hero-flower-container {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            aspect-ratio: 1;
-            animation: fadeUp 1s ease-out 0.5s both;
-        }
-        .hero-flower-circle {
-            position: absolute;
-            border-radius: 50%;
-            border: 2px solid;
-            animation: circleRotate 20s linear infinite;
-        }
-        .hero-flower-circle:nth-child(1) {
-            inset: 5%; border-color: rgba(155, 126, 216, 0.2);
-        }
-        .hero-flower-circle:nth-child(2) {
-            inset: 15%; border-color: rgba(232, 160, 191, 0.2);
-            animation-direction: reverse;
-            animation-duration: 15s;
-        }
-        .hero-flower-circle:nth-child(3) {
-            inset: 25%; border-color: rgba(123, 167, 217, 0.2);
-            animation-duration: 25s;
-        }
-        @keyframes circleRotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        .hero-emoji {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: clamp(6rem, 15vw, 12rem);
-            filter: drop-shadow(0 20px 40px rgba(155, 126, 216, 0.3));
-            animation: emojiPulse 3s ease-in-out infinite;
-        }
-        @keyframes emojiPulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.05); }
-        }
-
         /* === SECTION STYLES === */
         .section-title {
             font-size: clamp(2rem, 4vw, 3rem);
@@ -330,7 +326,6 @@
             border-radius: 2px;
             margin: 0 auto 2rem;
         }
-
         /* === ABOUT === */
         .about-section {
             background: linear-gradient(180deg, var(--cream) 0%, #F0E6FA 50%, var(--cream) 100%);
@@ -357,7 +352,6 @@
             font-size: 1.8rem;
             margin-bottom: 1rem;
         }
-
         /* Stats */
         .stat-item {
             text-align: center;
@@ -372,12 +366,10 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
         /* === PRODUCTS === */
         .products-section {
             background: linear-gradient(180deg, var(--cream) 0%, #E8F0FE 30%, #FFF0F5 70%, var(--cream) 100%);
         }
-
         /* Tabs */
         .tab-container {
             display: flex;
@@ -423,7 +415,6 @@
             border-color: transparent;
             box-shadow: 0 8px 25px rgba(155, 126, 216, 0.3);
         }
-
         /* Product grid */
         .products-grid {
             display: grid;
@@ -436,7 +427,6 @@
         @media (max-width: 640px) {
             .products-grid { grid-template-columns: 1fr; }
         }
-
         .product-card {
             background: rgba(255,255,255,0.8);
             backdrop-filter: blur(10px);
@@ -506,7 +496,6 @@
             color: white;
             z-index: 2;
         }
-
         /* Pagination */
         .pagination {
             display: flex;
@@ -566,7 +555,6 @@
             color: var(--dark);
             border-color: rgba(155, 126, 216, 0.2);
         }
-
         /* Tab content animation */
         .tab-content {
             animation: tabFadeIn 0.5s ease-out;
@@ -575,7 +563,6 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         /* Page transition */
         .page-transition {
             animation: pageFade 0.4s ease-out;
@@ -584,7 +571,6 @@
             from { opacity: 0; transform: translateX(20px); }
             to { opacity: 1; transform: translateX(0); }
         }
-
         /* === CONTACTS === */
         .contact-section {
             background: linear-gradient(180deg, var(--cream) 0%, #F3E8FF 100%);
@@ -610,7 +596,6 @@
             font-size: 1.5rem;
             margin-bottom: 1rem;
         }
-
         /* Map placeholder */
         .map-placeholder {
             background: linear-gradient(135deg, #E8D5F5 0%, #D5E8F5 50%, #F5D5E8 100%);
@@ -628,7 +613,6 @@
             inset: 0;
             background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239B7ED8' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
-
         /* === FOOTER === */
         .footer {
             background: linear-gradient(135deg, var(--dark) 0%, #3D2C5E 100%);
@@ -636,7 +620,6 @@
         }
         .footer a { color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s; }
         .footer a:hover { color: var(--hydrangea-pink); }
-
         /* === SCROLL ANIMATIONS === */
         .reveal {
             opacity: 0;
@@ -651,7 +634,6 @@
         .reveal-delay-2 { transition-delay: 0.2s; }
         .reveal-delay-3 { transition-delay: 0.3s; }
         .reveal-delay-4 { transition-delay: 0.4s; }
-
         /* === MOBILE MENU === */
         .mobile-menu {
             position: fixed;
@@ -677,7 +659,6 @@
             transition: color 0.3s;
         }
         .mobile-menu a:hover { color: var(--hydrangea-purple); }
-
         .burger {
             display: none;
             flex-direction: column;
@@ -695,12 +676,10 @@
         .burger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
         .burger.active span:nth-child(2) { opacity: 0; }
         .burger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
         @media (max-width: 768px) {
             .burger { display: flex; }
             .nav-links { display: none !important; }
         }
-
         /* === SCROLL TOP BUTTON === */
         .scroll-top {
             position: fixed;
@@ -729,7 +708,6 @@
             transform: translateY(-3px);
             box-shadow: 0 12px 35px rgba(155, 126, 216, 0.5);
         }
-
         /* Working hours table */
         .hours-table {
             width: 100%;
@@ -758,7 +736,6 @@
     </style>
 </head>
 <body>
-
     <!-- NAVBAR -->
     <nav class="navbar" id="navbar">
         <div style="max-width: 1280px; margin: 0 auto; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between;">
@@ -775,7 +752,6 @@
             </div>
         </div>
     </nav>
-
     <!-- MOBILE MENU -->
     <div class="mobile-menu" id="mobileMenu">
         <a href="#hero" onclick="closeMobile()">Главная</a>
@@ -783,24 +759,27 @@
         <a href="#products" onclick="closeMobile()">Каталог</a>
         <a href="#contacts" onclick="closeMobile()">Контакты</a>
     </div>
-
     <!-- HERO -->
     <section class="hero" id="hero">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
         <div class="blob blob-3"></div>
-
-        <!-- Petals generated by JS -->
+        <!-- Petals -->
         <div id="petals"></div>
-
-        <div class="hero-inner">
+        <!-- Visual background layer - always behind text -->
+        <div class="hero-visual-bg">
+            <div class="hero-flower-container">
+                <div class="hero-flower-circle"></div>
+                <div class="hero-flower-circle"></div>
+                <div class="hero-flower-circle"></div>
+                <div class="hero-emoji">💐</div>
+            </div>
+        </div>
+        <!-- Text content layer - always on top -->
+        <div class="hero-content">
             <div class="hero-text">
-                <div class="hero-badge">
-                    🌿 Частный сад гортензий
-                </div>
-                <h1 class="hero-title">
-                    Красота,<br>рождённая<br>природой
-                </h1>
+                <div class="hero-badge">🌿 Частный сад гортензий</div>
+                <h1 class="hero-title">Красота,<br>рождённая<br>природой</h1>
                 <p class="hero-subtitle">
                     Выращиваем уникальные сорта гортензий с любовью и заботой. 
                     Каждый цветок — это маленькое чудо, способное преобразить ваш день и пространство вокруг.
@@ -810,17 +789,10 @@
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
             </div>
-            <div class="hero-visual">
-                <div class="hero-flower-container">
-                    <div class="hero-flower-circle"></div>
-                    <div class="hero-flower-circle"></div>
-                    <div class="hero-flower-circle"></div>
-                    <div class="hero-emoji">💐</div>
-                </div>
-            </div>
+            <!-- Spacer to push text left on desktop -->
+            <div class="hero-desktop-spacer"></div>
         </div>
     </section>
-
     <!-- ABOUT -->
     <section class="about-section" id="about" style="padding: 6rem 1.5rem;">
         <div style="max-width: 1280px; margin: 0 auto;">
@@ -832,7 +804,6 @@
                     Сегодня в нашей коллекции более 50 сортов — от классических до редких японских видов.
                 </p>
             </div>
-
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
                 <div class="about-card reveal reveal-delay-1">
                     <div class="about-icon" style="background: linear-gradient(135deg, rgba(155,126,216,0.15), rgba(155,126,216,0.05));">🌱</div>
@@ -850,7 +821,6 @@
                     <p style="color: #6B5B7B; line-height: 1.7; font-size: 0.95rem;">Голубые, розовые, белые, фиолетовые, зелёные — наши гортензии покрывают всю палитру. Мы поможем подобрать идеальный цвет для вашего сада.</p>
                 </div>
             </div>
-
             <!-- Stats -->
             <div class="reveal" style="background: rgba(255,255,255,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(155,126,216,0.12); border-radius: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
                 <div class="stat-item">
@@ -872,7 +842,6 @@
             </div>
         </div>
     </section>
-
     <!-- PRODUCTS -->
     <section class="products-section" id="products" style="padding: 6rem 1.5rem;">
         <div style="max-width: 1280px; margin: 0 auto;">
@@ -883,7 +852,6 @@
                     Откройте мир уникальных гортензий — от классических красавиц до эксклюзивных коллекционных сортов
                 </p>
             </div>
-
             <!-- Tabs -->
             <div class="tab-container reveal">
                 <button class="tab-btn active" onclick="switchTab('best')" id="tab-best">
@@ -893,12 +861,10 @@
                     <span>🎨 Коллекция сортов</span>
                 </button>
             </div>
-
             <!-- Tab: Best -->
             <div id="content-best" class="tab-content reveal">
                 <div class="products-grid" id="grid-best"></div>
             </div>
-
             <!-- Tab: Varieties -->
             <div id="content-varieties" class="tab-content" style="display: none;">
                 <div class="products-grid" id="grid-varieties"></div>
@@ -906,7 +872,6 @@
             </div>
         </div>
     </section>
-
     <!-- CONTACTS -->
     <section class="contact-section" id="contacts" style="padding: 6rem 1.5rem;">
         <div style="max-width: 1280px; margin: 0 auto;">
@@ -917,7 +882,6 @@
                     Приезжайте к нам в питомник или свяжитесь любым удобным способом — мы всегда рады помочь выбрать идеальную гортензию
                 </p>
             </div>
-
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
                 <div class="contact-card reveal reveal-delay-1">
                     <div class="contact-icon" style="background: linear-gradient(135deg, rgba(155,126,216,0.15), rgba(155,126,216,0.05));">📍</div>
@@ -947,7 +911,6 @@
                     </table>
                 </div>
             </div>
-
             <!-- Map -->
             <div class="map-placeholder reveal" style="margin-bottom: 1rem;">
                 <div style="text-align: center; position: relative; z-index: 1;">
@@ -958,7 +921,6 @@
             </div>
         </div>
     </section>
-
     <!-- FOOTER -->
     <footer class="footer" style="padding: 3rem 1.5rem 1.5rem;">
         <div style="max-width: 1280px; margin: 0 auto;">
@@ -991,22 +953,19 @@
             </div>
         </div>
     </footer>
-
     <!-- SCROLL TOP -->
     <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0, behavior:'smooth'})">↑</button>
-
     <script>
         // ==================== DATA ====================
-        const bestProducts = [
+        var bestProducts = [
             { name: "Анабель", desc: "Пышные белоснежные шапки, классика жанра", price: "890 ₽", emoji: "⚪", bg: "linear-gradient(135deg, #f0e6ff, #e8f4fd)", badge: "Хит", badgeBg: "#9B7ED8" },
             { name: "Эндлесс Саммер Блю", desc: "Насыщенный голубой, цветёт всё лето", price: "1 290 ₽", emoji: "💙", bg: "linear-gradient(135deg, #dbeafe, #e0e7ff)", badge: "Новинка", badgeBg: "#7BA7D9" },
             { name: "Ванилла Фрейз", desc: "Конусовидные бело-розовые соцветия", price: "1 150 ₽", emoji: "🍦", bg: "linear-gradient(135deg, #fce7f3, #fff1f2)", badge: "Топ", badgeBg: "#E8A0BF" },
             { name: "Лаймлайт", desc: "Лимонно-зелёные цветы, переходящие в розовый", price: "980 ₽", emoji: "💚", bg: "linear-gradient(135deg, #dcfce7, #f0fdf4)", badge: "", badgeBg: "" },
             { name: "Фантом", desc: "Огромные кремово-розовые конусы до 40 см", price: "1 350 ₽", emoji: "🌸", bg: "linear-gradient(135deg, #fdf2f8, #fce7f3)", badge: "Премиум", badgeBg: "#D4739D" },
-            { name: "Мэджикал Файр", desc: "Огненно-красные метёлки, яркий акцент сада", price: "1 490 ₽", emoji: "🔥", bg: "linear-gradient(135deg, #fee2e2, #fef2f2)", badge: "Редкость", badgeBg: "#E85D75" },
+            { name: "Мэджикал Файр", desc: "Огненно-красные метёлки, яркий акцент сада", price: "1 490 ₽", emoji: "🔥", bg: "linear-gradient(135deg, #fee2e2, #fef2f2)", badge: "Редкость", badgeBg: "#E85D75" }
         ];
-
-        const varietiesProducts = [
+        var varietiesProducts = [
             { name: "Пинк Даймонд", desc: "Нежно-розовые конусовидные соцветия", price: "1 100 ₽", emoji: "💎", bg: "linear-gradient(135deg, #fce7f3, #fdf2f8)" },
             { name: "Бобо", desc: "Компактный куст, идеален для горшков", price: "750 ₽", emoji: "🌿", bg: "linear-gradient(135deg, #dcfce7, #f0fdf4)" },
             { name: "Грандифлора", desc: "Классическая белая метельчатая гортензия", price: "870 ₽", emoji: "⭐", bg: "linear-gradient(135deg, #fefce8, #fef9c3)" },
@@ -1026,16 +985,14 @@
             { name: "Полар Беар", desc: "Гигантские белоснежные конусы до 45 см", price: "1 250 ₽", emoji: "🐻‍❄️", bg: "linear-gradient(135deg, #f0f9ff, #e0f2fe)" },
             { name: "Строберри Блоссом", desc: "Клубничное цветение с весны до осени", price: "1 150 ₽", emoji: "🫐", bg: "linear-gradient(135deg, #e9d5ff, #f3e8ff)" },
             { name: "Мэджикал Мунлайт", desc: "Лунно-зелёные цветы, нежнейший оттенок", price: "1 380 ₽", emoji: "🌙", bg: "linear-gradient(135deg, #ecfdf5, #d1fae5)" },
-            { name: "Саммер Лав", desc: "Компактная, обильноцветущая, розово-белая", price: "1 050 ₽", emoji: "💕", bg: "linear-gradient(135deg, #fce7f3, #fff1f2)" },
+            { name: "Саммер Лав", desc: "Компактная, обильноцветущая, розово-белая", price: "1 050 ₽", emoji: "💕", bg: "linear-gradient(135deg, #fce7f3, #fff1f2)" }
         ];
-
-        const ITEMS_PER_PAGE = 6;
-        let currentPage = 1;
-        let currentTab = 'best';
-
+        var ITEMS_PER_PAGE = 6;
+        var currentPage = 1;
+        var currentTab = 'best';
         // ==================== RENDER ====================
         function createProductCard(product) {
-            const badgeHTML = product.badge 
+            var badgeHTML = product.badge 
                 ? '<div class="product-badge" style="background:' + product.badgeBg + '">' + product.badge + '</div>' 
                 : '';
             return '<div class="product-card">' +
@@ -1053,26 +1010,21 @@
                     '</div>' +
                 '</div>';
         }
-
         function renderBestProducts() {
             var grid = document.getElementById('grid-best');
             grid.innerHTML = bestProducts.map(createProductCard).join('');
         }
-
         function renderVarieties(page) {
             currentPage = page;
             var start = (page - 1) * ITEMS_PER_PAGE;
             var end = start + ITEMS_PER_PAGE;
             var pageItems = varietiesProducts.slice(start, end);
             var totalPages = Math.ceil(varietiesProducts.length / ITEMS_PER_PAGE);
-
             var grid = document.getElementById('grid-varieties');
             grid.innerHTML = pageItems.map(createProductCard).join('');
             grid.classList.remove('page-transition');
             void grid.offsetWidth;
             grid.classList.add('page-transition');
-
-            // Pagination
             var pag = document.getElementById('pagination-varieties');
             var pagHTML = '<button class="page-arrow" ' + (page === 1 ? 'disabled' : '') + ' onclick="renderVarieties(' + (page - 1) + ')">&#8592;</button>';
             for (var i = 1; i <= totalPages; i++) {
@@ -1081,7 +1033,6 @@
             pagHTML += '<button class="page-arrow" ' + (page === totalPages ? 'disabled' : '') + ' onclick="renderVarieties(' + (page + 1) + ')">&#8594;</button>';
             pag.innerHTML = pagHTML;
         }
-
         function switchTab(tab) {
             currentTab = tab;
             var allBtns = document.querySelectorAll('.tab-btn');
@@ -1089,10 +1040,8 @@
                 allBtns[i].classList.remove('active');
             }
             document.getElementById('tab-' + tab).classList.add('active');
-
             document.getElementById('content-best').style.display = tab === 'best' ? 'block' : 'none';
             document.getElementById('content-varieties').style.display = tab === 'varieties' ? 'block' : 'none';
-
             if (tab === 'best') {
                 var el = document.getElementById('content-best');
                 el.classList.remove('tab-content');
@@ -1106,7 +1055,6 @@
                 renderVarieties(1);
             }
         }
-
         // ==================== NAVBAR SCROLL ====================
         window.addEventListener('scroll', function() {
             var navbar = document.getElementById('navbar');
@@ -1117,14 +1065,12 @@
             } else {
                 navbar.classList.remove('scrolled');
             }
-
             if (window.scrollY > 600) {
                 scrollTopBtn.classList.add('visible');
             } else {
                 scrollTopBtn.classList.remove('visible');
             }
         });
-
         // ==================== MOBILE MENU ====================
         function toggleMobile() {
             document.getElementById('burger').classList.toggle('active');
@@ -1136,7 +1082,6 @@
             document.getElementById('mobileMenu').classList.remove('open');
             document.body.style.overflow = '';
         }
-
         // ==================== SCROLL REVEAL ====================
         function handleReveal() {
             var reveals = document.querySelectorAll('.reveal');
@@ -1149,7 +1094,6 @@
             }
         }
         window.addEventListener('scroll', handleReveal);
-
         // ==================== COUNTER ANIMATION ====================
         function animateCounters() {
             var counters = document.querySelectorAll('.stat-number');
@@ -1175,7 +1119,6 @@
             }
         }
         window.addEventListener('scroll', animateCounters);
-
         // ==================== PETALS ====================
         function createPetals() {
             var container = document.getElementById('petals');
@@ -1193,7 +1136,6 @@
                 container.appendChild(petal);
             }
         }
-
         // ==================== HIGHLIGHT TODAY ====================
         function highlightToday() {
             var day = new Date().getDay();
@@ -1202,7 +1144,6 @@
             else if (day === 6 && rows[1]) rows[1].classList.add('today');
             else if (day === 0 && rows[2]) rows[2].classList.add('today');
         }
-
         // ==================== INIT ====================
         document.addEventListener('DOMContentLoaded', function() {
             renderBestProducts();
