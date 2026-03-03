@@ -154,14 +154,12 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-        /* Mobile: slower gradient, fewer resources */
         @media (max-width: 768px) {
             .hero {
                 background-size: 260% 260%;
                 animation-duration: 18s;
             }
         }
-        /* Floating bubbles/petals — lightweight! */
         .petal {
             position: absolute;
             border-radius: 50% 0 50% 50%;
@@ -549,6 +547,16 @@
             cursor: pointer; text-decoration: underline; font-family: 'Inter', sans-serif;
             font-size: 0.95rem;
         }
+        /* Tabs responsive */
+        @media (max-width: 640px) {
+            .tabs-container {
+                gap: 0.5rem !important;
+            }
+            .slide-tab {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -674,9 +682,10 @@
             <h2 class="section-title">Наша <span class="gradient-text">коллекция</span></h2>
             <p class="section-subtitle">Откройте мир невероятных гортензий — от классических до самых редких экзотических сортов</p>
         </div>
-        <div class="reveal" style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 2.5rem; flex-wrap: wrap;">
+        <div class="reveal tabs-container" style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 2.5rem; flex-wrap: wrap;">
             <button class="slide-tab active" id="tab-btn-0" onclick="switchTab(0)">🏆 Хиты сезона</button>
-            <button class="slide-tab" id="tab-btn-1" onclick="switchTab(1)">🌈 Полная коллекция</button>
+            <button class="slide-tab" id="tab-btn-1" onclick="switchTab(1)">🌿 Метельчатые гортензии</button>
+            <button class="slide-tab" id="tab-btn-2" onclick="switchTab(2)">💐 Крупнолистные гортензии</button>
         </div>
         <div id="tab-content-0">
             <div class="products-grid" id="grid-0"></div>
@@ -684,6 +693,10 @@
         <div id="tab-content-1" style="display: none;">
             <div class="products-grid full-collection" id="grid-1"></div>
             <div class="pagination" id="pagination-1"></div>
+        </div>
+        <div id="tab-content-2" style="display: none;">
+            <div class="products-grid full-collection" id="grid-2"></div>
+            <div class="pagination" id="pagination-2"></div>
         </div>
     </div>
 </section>
@@ -840,37 +853,66 @@ const bestProducts = [
     { id: "best-5", name: "Пинк Леди", desc: "Нежно-розовые крупные шапки с элегантной формой соцветий и длительным цветением", price: "2 790", priceNum: 2790, badge: "Популярный", badgeColor: "#E8A0BF", bg: "linear-gradient(135deg, #ffe0f0, #f5e6ff)", emoji: "🌸" },
     { id: "best-6", name: "Фантом", desc: "Гигантские белые метёлки до 40 см — впечатляющий сорт для парадных композиций", price: "3 590", priceNum: 3590, badge: "Premium", badgeColor: "#9B7EC8", bg: "linear-gradient(135deg, #f5e6ff, #e0f0ff)", emoji: "👻" }
 ];
-const allVarieties = [
-    { id: "all-1", name: "Эндлесс Саммер", desc: "Цветёт всё лето без перерыва, ремонтантный сорт крупнолистной гортензии", price: "3 190", priceNum: 3190, bg: "linear-gradient(135deg, #e0f0ff, #e0e6ff)", emoji: "☀️" },
-    { id: "all-2", name: "Мэджикал Монблан", desc: "Компактная крупнолистная белая гортензия, идеальна для небольших садов", price: "2 690", priceNum: 2690, bg: "linear-gradient(135deg, #f0f0ff, #fff)", emoji: "🏔️" },
-    { id: "all-3", name: "Пинки Винки", desc: "Двухцветная бело-розовая красавица с конусовидными метёлками", price: "3 490", priceNum: 3490, badge: "Хит", badgeColor: "#E8A0BF", bg: "linear-gradient(135deg, #ffe0f0, #f5e6ff)", emoji: "🩷" },
-    { id: "all-4", name: "Строберри Блоссом", desc: "Клубничные оттенки соцветий, напоминающие спелые ягоды в саду", price: "2 990", priceNum: 2990, bg: "linear-gradient(135deg, #ffe0e0, #ffe0f0)", emoji: "🍓" },
-    { id: "all-5", name: "Вимс Ред", desc: "Глубокий красный цвет осенью, с постепенной сменой оттенков", price: "3 790", priceNum: 3790, badge: "Редкий", badgeColor: "#E85D75", bg: "linear-gradient(135deg, #ffe0e0, #f5e0e0)", emoji: "❤️" },
-    { id: "all-6", name: "Сильвер Доллар", desc: "Серебристо-белые пышные шапки с изысканным перламутровым отливом", price: "2 490", priceNum: 2490, bg: "linear-gradient(135deg, #f0f0f5, #e8e8f0)", emoji: "🤍" },
-    { id: "all-7", name: "Грейт Стар", desc: "Звёздообразные уникальные лепестки — необычная форма соцветий", price: "4 290", priceNum: 4290, badge: "Эксклюзив", badgeColor: "#9B7EC8", bg: "linear-gradient(135deg, #f5e6ff, #e6e0ff)", emoji: "⭐" },
-    { id: "all-8", name: "Литл Лайм", desc: "Карликовая версия Лаймлайт, компактная и обильно цветущая", price: "1 990", priceNum: 1990, bg: "linear-gradient(135deg, #e6ffe0, #f0ffe6)", emoji: "🍋" },
-    { id: "all-9", name: "Бобо", desc: "Миниатюрная метельчатая гортензия, идеальна для горшков и балконов", price: "1 790", priceNum: 1790, badge: "Для балкона", badgeColor: "#8ECDA8", bg: "linear-gradient(135deg, #e0ffe6, #e6fff0)", emoji: "🌿" },
-    { id: "all-10", name: "Диамант Руж", desc: "Красные соцветия к осени — один из самых ярких метельчатых сортов", price: "3 990", priceNum: 3990, bg: "linear-gradient(135deg, #ffe0e8, #f5e0e0)", emoji: "💎" },
-    { id: "all-11", name: "Полярный Медведь", desc: "Огромные белоснежные метёлки до 50 см, морозостойкий сорт", price: "3 290", priceNum: 3290, bg: "linear-gradient(135deg, #f0f5ff, #e8f0ff)", emoji: "🐻‍❄️" },
-    { id: "all-12", name: "Сандей Фрайз", desc: "Компактная версия Ванилла Фрайз с нежными бело-розовыми метёлками", price: "2 890", priceNum: 2890, badge: "Новинка", badgeColor: "#E8A0BF", bg: "linear-gradient(135deg, #ffe0f0, #fff0e0)", emoji: "🍦" },
-    { id: "all-13", name: "Мэджикал Файр", desc: "Огненно-красные соцветия, эффектный акцент в любом саду", price: "3 690", priceNum: 3690, bg: "linear-gradient(135deg, #ffe0d0, #ffe0e0)", emoji: "🔥" },
-    { id: "all-14", name: "Блюберри Чизкейк", desc: "Голубовато-фиолетовые цветы с кремовым центром", price: "4 490", priceNum: 4490, badge: "Премиум", badgeColor: "#7B68EE", bg: "linear-gradient(135deg, #e0e0ff, #e6d0ff)", emoji: "🫐" },
-    { id: "all-15", name: "Коттон Кэнди", desc: "Сахарно-розовые нежные шапки, воздушные и романтичные", price: "2 590", priceNum: 2590, bg: "linear-gradient(135deg, #ffe6f0, #fff0f5)", emoji: "🍬" },
-    { id: "all-16", name: "Роял Флауэр", desc: "Королевская двухцветная гортензия — украшение любой коллекции", price: "5 290", priceNum: 5290, badge: "Люкс", badgeColor: "#DAA520", bg: "linear-gradient(135deg, #fff5e0, #ffe8d0)", emoji: "👑" },
-    { id: "all-17", name: "Твист энд Шаут", desc: "Кружевная ремонтантная красавица с уникальной текстурой соцветий", price: "3 190", priceNum: 3190, bg: "linear-gradient(135deg, #e6e0ff, #f0e6ff)", emoji: "💃" },
-    { id: "all-18", name: "Аиша", desc: "Классическая голубая крупнолистная гортензия с шарообразными соцветиями", price: "2 290", priceNum: 2290, bg: "linear-gradient(135deg, #d0e8ff, #e0f0ff)", emoji: "💙" },
-    { id: "all-19", name: "Никко Блю", desc: "Ярко-голубые идеальные шарики — самый популярный голубой сорт", price: "2 790", priceNum: 2790, badge: "Популярный", badgeColor: "#7BA7D4", bg: "linear-gradient(135deg, #d0e0ff, #e0e8ff)", emoji: "🔵" },
-    { id: "all-20", name: "Мисс Саори", desc: "Двухцветная бело-вишнёвая премиум гортензия, коллекционный сорт", price: "5 990", priceNum: 5990, badge: "Коллекционный", badgeColor: "#9B7EC8", bg: "linear-gradient(135deg, #ffe0e8, #f5e6ff)", emoji: "🌺" }
+
+// Метельчатые гортензии (Tab 1)
+const panicleVarieties = [
+    { id: "pan-1", name: "Пинки Винки", desc: "Двухцветная бело-розовая красавица с конусовидными метёлками до 25 см", price: "3 490", priceNum: 3490, badge: "Хит", badgeColor: "#E8A0BF", bg: "linear-gradient(135deg, #ffe0f0, #f5e6ff)", emoji: "🩷" },
+    { id: "pan-2", name: "Строберри Блоссом", desc: "Клубничные оттенки соцветий, напоминающие спелые ягоды в летнем саду", price: "2 990", priceNum: 2990, bg: "linear-gradient(135deg, #ffe0e0, #ffe0f0)", emoji: "🍓" },
+    { id: "pan-3", name: "Вимс Ред", desc: "Глубокий красный цвет осенью, с постепенной сменой оттенков от белого к бордовому", price: "3 790", priceNum: 3790, badge: "Редкий", badgeColor: "#E85D75", bg: "linear-gradient(135deg, #ffe0e0, #f5e0e0)", emoji: "❤️" },
+    { id: "pan-4", name: "Сильвер Доллар", desc: "Серебристо-белые пышные шапки с изысканным перламутровым отливом", price: "2 490", priceNum: 2490, bg: "linear-gradient(135deg, #f0f0f5, #e8e8f0)", emoji: "🤍" },
+    { id: "pan-5", name: "Грейт Стар", desc: "Звёздообразные уникальные лепестки — необычная форма соцветий в виде звёзд", price: "4 290", priceNum: 4290, badge: "Эксклюзив", badgeColor: "#9B7EC8", bg: "linear-gradient(135deg, #f5e6ff, #e6e0ff)", emoji: "⭐" },
+    { id: "pan-6", name: "Литл Лайм", desc: "Карликовая версия Лаймлайт, компактная и обильно цветущая, высотой до 70 см", price: "1 990", priceNum: 1990, bg: "linear-gradient(135deg, #e6ffe0, #f0ffe6)", emoji: "🍋" },
+    { id: "pan-7", name: "Бобо", desc: "Миниатюрная метельчатая гортензия высотой до 60 см, идеальна для горшков и балконов", price: "1 790", priceNum: 1790, badge: "Для балкона", badgeColor: "#8ECDA8", bg: "linear-gradient(135deg, #e0ffe6, #e6fff0)", emoji: "🌿" },
+    { id: "pan-8", name: "Диамант Руж", desc: "Красные соцветия к осени — один из самых ярких и насыщенных метельчатых сортов", price: "3 990", priceNum: 3990, bg: "linear-gradient(135deg, #ffe0e8, #f5e0e0)", emoji: "💎" },
+    { id: "pan-9", name: "Полярный Медведь", desc: "Огромные белоснежные метёлки до 50 см, морозостойкий и неприхотливый сорт", price: "3 290", priceNum: 3290, bg: "linear-gradient(135deg, #f0f5ff, #e8f0ff)", emoji: "🐻‍❄️" },
+    { id: "pan-10", name: "Сандей Фрайз", desc: "Компактная версия Ванилла Фрайз с нежными бело-розовыми метёлками", price: "2 890", priceNum: 2890, badge: "Новинка", badgeColor: "#E8A0BF", bg: "linear-gradient(135deg, #ffe0f0, #fff0e0)", emoji: "🍦" },
+    { id: "pan-11", name: "Мэджикал Файр", desc: "Огненно-красные соцветия, эффектный яркий акцент в любом ландшафтном дизайне", price: "3 690", priceNum: 3690, bg: "linear-gradient(135deg, #ffe0d0, #ffe0e0)", emoji: "🔥" },
+    { id: "pan-12", name: "Коттон Кэнди", desc: "Сахарно-розовые нежные метёлки, воздушные и романтичные как сахарная вата", price: "2 590", priceNum: 2590, bg: "linear-gradient(135deg, #ffe6f0, #fff0f5)", emoji: "🍬" },
+    { id: "pan-13", name: "Роял Флауэр", desc: "Королевская метельчатая гортензия с огромными двухцветными соцветиями", price: "5 290", priceNum: 5290, badge: "Люкс", badgeColor: "#DAA520", bg: "linear-gradient(135deg, #fff5e0, #ffe8d0)", emoji: "👑" },
+    { id: "pan-14", name: "Мэджикал Монблан", desc: "Компактная белоснежная метельчатая гортензия, идеальна для небольших садов", price: "2 690", priceNum: 2690, bg: "linear-gradient(135deg, #f0f0ff, #fff)", emoji: "🏔️" },
+    { id: "pan-15", name: "Канделайт", desc: "Золотисто-кремовые метёлки, переходящие в розовый, как свет свечей на закате", price: "3 190", priceNum: 3190, bg: "linear-gradient(135deg, #fff5e0, #fff0e6)", emoji: "🕯️" },
+    { id: "pan-16", name: "Мега Минди", desc: "Крупные тёмно-розовые метёлки на крепких прямостоячих побегах", price: "3 390", priceNum: 3390, badge: "Популярный", badgeColor: "#E8A0BF", bg: "linear-gradient(135deg, #ffe0f0, #ffe0e8)", emoji: "🌷" },
+    { id: "pan-17", name: "Киушу", desc: "Элегантные ажурные белые соцветия с лёгким ароматом, привлекающие бабочек", price: "2 290", priceNum: 2290, bg: "linear-gradient(135deg, #f5fff0, #f0fff5)", emoji: "🦋" },
+    { id: "pan-18", name: "Тардива", desc: "Позднецветущая метельчатая гортензия с конусовидными кремово-белыми метёлками", price: "2 190", priceNum: 2190, bg: "linear-gradient(135deg, #f0f5f0, #f5fff5)", emoji: "🍂" },
+    { id: "pan-19", name: "Саммер Лав", desc: "Романтичные бело-розовые соцветия, цветение с середины лета до заморозков", price: "3 090", priceNum: 3090, badge: "Новинка", badgeColor: "#8ECDA8", bg: "linear-gradient(135deg, #ffe6f0, #f5e0ff)", emoji: "💕" },
+    { id: "pan-20", name: "Мэджикал Мунлайт", desc: "Зеленовато-белые крупные метёлки с лунным сиянием, сорт-шедевр селекции", price: "4 590", priceNum: 4590, badge: "Премиум", badgeColor: "#9B7EC8", bg: "linear-gradient(135deg, #e8f5e0, #f0ffe8)", emoji: "🌙" }
 ];
+
+// Крупнолистные гортензии (Tab 2)
+const macrophyllaVarieties = [
+    { id: "mac-1", name: "Эндлесс Саммер Блум Стар", desc: "Ремонтантная крупнолистная гортензия, цветёт на побегах текущего и прошлого года", price: "3 490", priceNum: 3490, badge: "Хит", badgeColor: "#E8A0BF", bg: "linear-gradient(135deg, #e0f0ff, #e0e6ff)", emoji: "☀️" },
+    { id: "mac-2", name: "Тугезер", desc: "Двухцветная ремонтантная красавица с махровыми розово-голубыми цветками", price: "4 290", priceNum: 4290, badge: "Редкий", badgeColor: "#7BA7D4", bg: "linear-gradient(135deg, #e6e0ff, #ffe0f0)", emoji: "💜" },
+    { id: "mac-3", name: "Мася", desc: "Ярко-малиновые огромные шапки диаметром до 30 см, насыщенный цвет всё лето", price: "2 990", priceNum: 2990, bg: "linear-gradient(135deg, #ffe0e8, #ffe0f0)", emoji: "🌺" },
+    { id: "mac-4", name: "Альпенглюхен", desc: "Ярко-красные крупные соцветия с плотными шапками, немецкая классика", price: "3 190", priceNum: 3190, bg: "linear-gradient(135deg, #ffe0d0, #ffe0e0)", emoji: "🔴" },
+    { id: "mac-5", name: "Ред Барон", desc: "Тёмно-красная аристократичная гортензия с бархатистыми лепестками", price: "3 590", priceNum: 3590, badge: "Премиум", badgeColor: "#9B7EC8", bg: "linear-gradient(135deg, #f5e0e0, #ffe0d8)", emoji: "🏰" },
+    { id: "mac-6", name: "Рената Штейнигер", desc: "Интенсивно-синяя крупнолистная гортензия, один из самых ярких голубых сортов", price: "3 890", priceNum: 3890, badge: "Эксклюзив", badgeColor: "#7BA7D4", bg: "linear-gradient(135deg, #d0e0ff, #d8e8ff)", emoji: "💎" },
+    { id: "mac-7", name: "Никко Блю", desc: "Ярко-голубые идеальные шарики — самый популярный классический голубой сорт", price: "2 790", priceNum: 2790, badge: "Популярный", badgeColor: "#7BA7D4", bg: "linear-gradient(135deg, #d0e0ff, #e0e8ff)", emoji: "🔵" },
+    { id: "mac-8", name: "Шнеебол", desc: "Белоснежная крупнолистная гортензия с плотными шарообразными соцветиями до 25 см", price: "2 490", priceNum: 2490, bg: "linear-gradient(135deg, #f5f5ff, #fff)", emoji: "⚪" },
+    { id: "mac-9", name: "Мариесии Перфекта", desc: "Кружевная голубая красавица с изящными плоскими соцветиями-зонтиками", price: "3 290", priceNum: 3290, bg: "linear-gradient(135deg, #d8e8ff, #e0f0ff)", emoji: "🦚" },
+    { id: "mac-10", name: "Блауэр Цверг", desc: "Компактная голубая крупнолистная гортензия, идеальна для маленьких садов и контейнеров", price: "2 190", priceNum: 2190, badge: "Для балкона", badgeColor: "#8ECDA8", bg: "linear-gradient(135deg, #d0e8ff, #e6f0ff)", emoji: "🫧" },
+    { id: "mac-11", name: "Романс", desc: "Махровая розовая гортензия с пышными звёздчатыми цветками, ремонтантная серия You&Me", price: "4 490", priceNum: 4490, badge: "Люкс", badgeColor: "#DAA520", bg: "linear-gradient(135deg, #ffe0f0, #f5e6ff)", emoji: "🌹" },
+    { id: "mac-12", name: "Хопкорн", desc: "Уникальные чашевидные лепестки, напоминающие воздушную кукурузу, розово-фиолетовые", price: "3 790", priceNum: 3790, badge: "Новинка", badgeColor: "#8ECDA8", bg: "linear-gradient(135deg, #f0e6ff, #ffe0f5)", emoji: "🍿" },
+    { id: "mac-13", name: "Перфекшн", desc: "Махровая крупнолистная гортензия с градиентом от розового к голубому на одном кусте", price: "4 890", priceNum: 4890, badge: "Коллекционный", badgeColor: "#9B7EC8", bg: "linear-gradient(135deg, #e0e6ff, #ffe0f0)", emoji: "✨" },
+    { id: "mac-14", name: "Графиня Коссель", desc: "Изысканная бело-розовая гортензия с тонкой каймой на лепестках, старинный сорт", price: "3 390", priceNum: 3390, bg: "linear-gradient(135deg, #fff0f0, #ffe6f0)", emoji: "👸" },
+    { id: "mac-15", name: "Ю энд Ми Лав", desc: "Махровая ремонтантная розовая гортензия из серии You&Me с обильным цветением", price: "4 190", priceNum: 4190, bg: "linear-gradient(135deg, #ffe0f0, #ffe6f5)", emoji: "💗" },
+    { id: "mac-16", name: "Спайк", desc: "Гофрированные зубчатые лепестки создают необычную текстуру соцветий, голубая или розовая", price: "3 090", priceNum: 3090, bg: "linear-gradient(135deg, #e6e0ff, #e0f0ff)", emoji: "🌀" },
+    { id: "mac-17", name: "Доппио Бьянко", desc: "Махровая белоснежная крупнолистная гортензия с пышными многолепестковыми цветками", price: "3 990", priceNum: 3990, badge: "Новинка", badgeColor: "#E8A0BF", bg: "linear-gradient(135deg, #f5f5ff, #f0f0ff)", emoji: "🕊️" },
+    { id: "mac-18", name: "Кёнигштайн", desc: "Глубокие фиолетово-пурпурные соцветия, насыщенный королевский оттенок", price: "3 490", priceNum: 3490, bg: "linear-gradient(135deg, #e8d8ff, #e0d0ff)", emoji: "🟣" },
+    { id: "mac-19", name: "Леди Фудзияма", desc: "Белоснежные крупные шарообразные соцветия до 30 см, японская элегантность", price: "2 890", priceNum: 2890, bg: "linear-gradient(135deg, #f0f5ff, #f5f8ff)", emoji: "🗻" },
+    { id: "mac-20", name: "Мисс Саори", desc: "Двухцветная бело-вишнёвая премиум гортензия, обладатель золотой медали Chelsea", price: "5 990", priceNum: 5990, badge: "Коллекционный", badgeColor: "#9B7EC8", bg: "linear-gradient(135deg, #ffe0e8, #f5e6ff)", emoji: "🏅" }
+];
+
 // ============ STATE ============
 let cart = [];
 let currentTab = 0;
-let currentPage = 0;
+let currentPage1 = 0;
+let currentPage2 = 0;
 const PER_PAGE = 6;
 let mobileMenuOpen = false;
 let notifTimeout = null;
+
 // ============ HELPERS ============
-function getAllProducts() { return [...bestProducts, ...allVarieties]; }
+function getAllProducts() { return [...bestProducts, ...panicleVarieties, ...macrophyllaVarieties]; }
 function findProductById(id) { return getAllProducts().find(p => p.id === id); }
 function isInCart(id) { return cart.some(item => item.product.id === id); }
 function getTotalItems() { return cart.reduce((s, i) => s + i.quantity, 0); }
@@ -881,6 +923,7 @@ function pluralize(n) {
     if (n >= 2 && n <= 4) return 'товара';
     return 'товаров';
 }
+
 // ============ NAVIGATION ============
 function scrollToSection(e, id) {
     if (e) e.preventDefault();
@@ -898,6 +941,7 @@ window.addEventListener('scroll', () => {
         navbar.classList.add('at-top');
     }
 });
+
 // ============ MOBILE MENU ============
 function toggleMobileMenu() {
     mobileMenuOpen = !mobileMenuOpen;
@@ -911,7 +955,8 @@ function closeMobileMenu() {
     document.getElementById('mobileDropdown').classList.remove('open');
     document.getElementById('mobileOverlay').classList.remove('open');
 }
-// ============ FLOATING PETALS/BUBBLES (lightweight!) ============
+
+// ============ FLOATING PETALS ============
 function createPetals() {
     const container = document.getElementById('petals-container');
     const colors = ['#C4B1E0', '#E8A0BF', '#F2C6DE', '#A8C8E8', '#8ECDA8', '#7BA7D4'];
@@ -935,6 +980,7 @@ function createPetals() {
         container.appendChild(petal);
     }
 }
+
 // ============ SCROLL REVEAL ============
 function revealOnScroll() {
     document.querySelectorAll('.reveal').forEach(el => {
@@ -943,6 +989,7 @@ function revealOnScroll() {
         }
     });
 }
+
 // ============ PRODUCTS ============
 function createCard(product) {
     const inCart = isInCart(product.id);
@@ -968,51 +1015,77 @@ function createCard(product) {
         </div>
     `;
 }
+
 function renderTab0() {
     document.getElementById('grid-0').innerHTML = bestProducts.map(createCard).join('');
 }
+
 function renderTab1() {
-    const start = currentPage * PER_PAGE;
-    const items = allVarieties.slice(start, start + PER_PAGE);
+    const start = currentPage1 * PER_PAGE;
+    const items = panicleVarieties.slice(start, start + PER_PAGE);
     const grid = document.getElementById('grid-1');
     grid.style.opacity = '0';
     setTimeout(() => {
         grid.innerHTML = items.map(createCard).join('');
         grid.style.opacity = '1';
     }, 200);
-    renderPagination();
+    renderPagination(panicleVarieties, currentPage1, 'pagination-1', 1);
 }
-function renderPagination() {
-    const totalPages = Math.ceil(allVarieties.length / PER_PAGE);
-    const container = document.getElementById('pagination-1');
-    let html = `<button class="page-arrow" onclick="changePage(${currentPage - 1})" ${currentPage === 0 ? 'disabled' : ''}>←</button>`;
+
+function renderTab2() {
+    const start = currentPage2 * PER_PAGE;
+    const items = macrophyllaVarieties.slice(start, start + PER_PAGE);
+    const grid = document.getElementById('grid-2');
+    grid.style.opacity = '0';
+    setTimeout(() => {
+        grid.innerHTML = items.map(createCard).join('');
+        grid.style.opacity = '1';
+    }, 200);
+    renderPagination(macrophyllaVarieties, currentPage2, 'pagination-2', 2);
+}
+
+function renderPagination(dataArray, currentPageNum, containerId, tabNum) {
+    const totalPages = Math.ceil(dataArray.length / PER_PAGE);
+    const container = document.getElementById(containerId);
+    let html = `<button class="page-arrow" onclick="changePage(${tabNum}, ${currentPageNum - 1})" ${currentPageNum === 0 ? 'disabled' : ''}>←</button>`;
     for (let i = 0; i < totalPages; i++) {
-        html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i + 1}</button>`;
+        html += `<button class="page-btn ${i === currentPageNum ? 'active' : ''}" onclick="changePage(${tabNum}, ${i})">${i + 1}</button>`;
     }
-    html += `<button class="page-arrow" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages - 1 ? 'disabled' : ''}>→</button>`;
+    html += `<button class="page-arrow" onclick="changePage(${tabNum}, ${currentPageNum + 1})" ${currentPageNum === totalPages - 1 ? 'disabled' : ''}>→</button>`;
     container.innerHTML = html;
 }
-function changePage(page) {
-    const totalPages = Math.ceil(allVarieties.length / PER_PAGE);
+
+function changePage(tabNum, page) {
+    const dataArray = tabNum === 1 ? panicleVarieties : macrophyllaVarieties;
+    const totalPages = Math.ceil(dataArray.length / PER_PAGE);
     if (page < 0 || page >= totalPages) return;
-    currentPage = page;
-    renderTab1();
+    if (tabNum === 1) {
+        currentPage1 = page;
+        renderTab1();
+    } else {
+        currentPage2 = page;
+        renderTab2();
+    }
     document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+
 function switchTab(index) {
     currentTab = index;
-    document.getElementById('tab-btn-0').classList.toggle('active', index === 0);
-    document.getElementById('tab-btn-1').classList.toggle('active', index === 1);
-    document.getElementById('tab-content-0').style.display = index === 0 ? 'block' : 'none';
-    document.getElementById('tab-content-1').style.display = index === 1 ? 'block' : 'none';
-    if (index === 1) { currentPage = 0; renderTab1(); }
+    for (let i = 0; i <= 2; i++) {
+        document.getElementById('tab-btn-' + i).classList.toggle('active', index === i);
+        document.getElementById('tab-content-' + i).style.display = index === i ? 'block' : 'none';
+    }
+    if (index === 1) { currentPage1 = 0; renderTab1(); }
+    if (index === 2) { currentPage2 = 0; renderTab2(); }
 }
+
 function toggleCardExpansion(event) {
     const card = event.target.closest('[data-product-card]');
     if (!card) return;
     if (event.target.closest('.product-cart-btn')) return;
     card.classList.toggle('expanded');
 }
+
 // ============ CART ============
 function addToCart(id) {
     const product = findProductById(id);
@@ -1048,6 +1121,7 @@ function updateCartUI() {
     });
     renderTab0();
     if (currentTab === 1) renderTab1();
+    if (currentTab === 2) renderTab2();
     renderOrderCart();
 }
 function renderOrderCart() {
@@ -1119,6 +1193,7 @@ function showNotification(name) {
         setTimeout(() => { if (container.contains(notif)) container.removeChild(notif); }, 400);
     }, 2000);
 }
+
 // ============ ORDER ============
 function handleOrderSubmit(e) {
     e.preventDefault();
@@ -1138,11 +1213,13 @@ function resetOrder() {
     document.getElementById('orderSuccessCard').style.display = 'none';
     updateCartUI();
 }
+
 // ============ INIT ============
 document.addEventListener('DOMContentLoaded', () => {
     createPetals();
     renderTab0();
     renderTab1();
+    renderTab2();
     renderOrderCart();
     revealOnScroll();
     document.addEventListener('click', toggleCardExpansion);
