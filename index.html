@@ -383,6 +383,50 @@
             background: linear-gradient(135deg, var(--mint), #6ab88a);
             box-shadow: 0 3px 10px rgba(142, 205, 168, 0.4);
         }
+        /* Card inline quantity controls */
+        .cart-control-wrapper {
+            display: flex;
+            align-items: center;
+        }
+        .card-qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.1rem;
+            background: linear-gradient(135deg, var(--lavender), var(--pink));
+            border-radius: 12px;
+            padding: 0.15rem 0.2rem;
+            box-shadow: 0 3px 10px rgba(155, 126, 200, 0.3);
+        }
+        .card-qty-btn {
+            width: 26px; height: 26px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s, transform 0.1s;
+            font-family: 'Inter', sans-serif;
+            line-height: 1;
+        }
+        .card-qty-btn:hover {
+            background: rgba(255,255,255,0.35);
+        }
+        .card-qty-btn:active {
+            transform: scale(0.88);
+        }
+        .card-qty-num {
+            color: white;
+            font-weight: 700;
+            font-size: 0.8rem;
+            min-width: 20px;
+            text-align: center;
+            user-select: none;
+        }
         /* Sparkle */
         .sparkle-container { position: relative; overflow: hidden; }
         .sparkle-container::before {
@@ -626,6 +670,25 @@
             }
             .page-num {
                 min-width: 36px; height: 36px; font-size: 0.85rem;
+            }
+            .card-qty-controls {
+                gap: 0;
+                padding: 0.1rem 0.15rem;
+                border-radius: 10px;
+            }
+            .card-qty-btn {
+                width: 22px; height: 22px;
+                font-size: 0.75rem;
+                border-radius: 6px;
+            }
+            .card-qty-num {
+                font-size: 0.7rem;
+                min-width: 16px;
+            }
+            .product-cart-btn {
+                width: 32px; height: 32px; min-width: 32px;
+                border-radius: 10px;
+                font-size: 0.85rem;
             }
             .cart-notification {
                 bottom: 4rem;
@@ -1121,10 +1184,25 @@ function revealOnScroll() {
 }
 
 // ============ PRODUCTS ============
-function createCard(product) {
-    const inCart = isInCart(product.id);
+function getCartControlHTML(product) {
+    const cartItem = cart.find(item => item.product.id === product.id);
+    if (cartItem) {
+        return `
+            <div class="card-qty-controls" onclick="event.stopPropagation()">
+                <button class="card-qty-btn" onclick="event.stopPropagation(); cardUpdateQty('${product.id}', -1)">−</button>
+                <span class="card-qty-num">${cartItem.quantity}</span>
+                <button class="card-qty-btn" onclick="event.stopPropagation(); cardUpdateQty('${product.id}', 1)">+</button>
+            </div>
+        `;
+    }
     return `
-        <div class="product-card sparkle-container" data-product-card>
+        <button class="product-cart-btn" onclick="event.stopPropagation(); addToCart('${product.id}')" title="Добавить в корзину">🛒</button>
+    `;
+}
+
+function createCard(product) {
+    return `
+        <div class="product-card sparkle-container" data-product-card data-product-id="${product.id}">
             <div class="product-img" style="background: ${product.bg};">
                 ${product.badge ? `<span class="product-badge" style="background: ${product.badgeColor};">${product.badge}</span>` : ''}
                 <span style="position:relative;z-index:1;">${product.emoji}</span>
@@ -1137,9 +1215,7 @@ function createCard(product) {
                         <span class="product-price">${product.price} ₽</span>
                         ${product.oldPrice ? `<span class="product-old-price">${product.oldPrice} ₽</span>` : ''}
                     </div>
-                    <button class="product-cart-btn ${inCart ? 'added' : ''}" onclick="event.stopPropagation(); addToCart('${product.id}')" title="${inCart ? 'Уже в корзине' : 'Добавить в корзину'}">
-                        ${inCart ? '✓' : '🛒'}
-                    </button>
+                    <div class="cart-control-wrapper">${getCartControlHTML(product)}</div>
                 </div>
             </div>
         </div>
@@ -1248,11 +1324,29 @@ function toggleCardExpansion(event) {
     if (window.innerWidth > 768) return;
     const card = event.target.closest('[data-product-card]');
     if (!card) return;
-    if (event.target.closest('.product-cart-btn')) return;
+    // Don't toggle if interacting with any cart control
+    if (event.target.closest('.cart-control-wrapper')) return;
     card.classList.toggle('expanded');
 }
 
 // ============ CART ============
+function updateNavCartCount() {
+    const total = getTotalItems();
+    document.getElementById('desktopCartCount').textContent = total;
+    document.getElementById('mobileCartCount').textContent = total;
+    document.querySelectorAll('.cart-count-badge').forEach(badge => {
+        badge.classList.remove('bounce');
+        void badge.offsetWidth;
+        if (total > 0) badge.classList.add('bounce');
+    });
+}
+function updateCardCartControl(id) {
+    const product = findProductById(id);
+    if (!product) return;
+    document.querySelectorAll('[data-product-id="' + id + '"] .cart-control-wrapper').forEach(wrapper => {
+        wrapper.innerHTML = getCartControlHTML(product);
+    });
+}
 function addToCart(id) {
     const product = findProductById(id);
     if (!product) return;
@@ -1262,29 +1356,41 @@ function addToCart(id) {
     } else {
         cart.push({ product, quantity: 1 });
     }
-    updateCartUI();
+    updateCardCartControl(id);
+    updateNavCartCount();
+    renderOrderCart();
     showNotification(product.name);
+}
+function cardUpdateQty(id, delta) {
+    const item = cart.find(i => i.product.id === id);
+    if (!item) return;
+    item.quantity += delta;
+    if (item.quantity <= 0) {
+        cart = cart.filter(i => i.product.id !== id);
+    }
+    updateCardCartControl(id);
+    updateNavCartCount();
+    renderOrderCart();
 }
 function removeFromCart(id) {
     cart = cart.filter(item => item.product.id !== id);
-    updateCartUI();
+    updateCardCartControl(id);
+    updateNavCartCount();
+    renderOrderCart();
 }
 function updateQuantity(id, delta) {
     const item = cart.find(i => i.product.id === id);
     if (!item) return;
     item.quantity += delta;
-    if (item.quantity <= 0) { removeFromCart(id); return; }
-    updateCartUI();
+    if (item.quantity <= 0) {
+        cart = cart.filter(i => i.product.id !== id);
+    }
+    updateCardCartControl(id);
+    updateNavCartCount();
+    renderOrderCart();
 }
 function updateCartUI() {
-    const total = getTotalItems();
-    document.getElementById('desktopCartCount').textContent = total;
-    document.getElementById('mobileCartCount').textContent = total;
-    document.querySelectorAll('.cart-count-badge').forEach(badge => {
-        badge.classList.remove('bounce');
-        void badge.offsetWidth;
-        if (total > 0) badge.classList.add('bounce');
-    });
+    updateNavCartCount();
     renderTab0();
     if (currentTab === 1) renderTab1();
     if (currentTab === 2) renderTab2();
