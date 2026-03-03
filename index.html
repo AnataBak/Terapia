@@ -350,6 +350,15 @@
             -webkit-line-clamp: initial;
             overflow: visible;
         }
+        /* Desktop: show full description always */
+        @media (min-width: 769px) {
+            .product-desc {
+                -webkit-line-clamp: unset !important;
+                -webkit-box-orient: unset !important;
+                overflow: visible !important;
+                display: block !important;
+            }
+        }
         .product-price { font-weight: 700; font-size: 1.15rem; color: var(--lavender); }
         .product-old-price {
             font-size: 0.85rem; color: #bbb; text-decoration: line-through; margin-left: 0.5rem;
@@ -392,48 +401,87 @@
         /* Pagination */
         .pagination {
             display: flex; justify-content: center; align-items: center;
-            gap: 0.75rem; margin-top: 2rem;
+            gap: 0.5rem; margin-top: 2rem; flex-wrap: wrap;
         }
-        .page-counter {
-            display: flex; align-items: center; gap: 0.5rem;
-            background: white; border-radius: 50px;
-            padding: 0.5rem 1.25rem;
-            border: 2px solid rgba(155, 126, 200, 0.15);
-            box-shadow: 0 4px 15px rgba(155, 126, 200, 0.08);
-            font-family: 'Inter', sans-serif;
-            user-select: none;
-        }
-        .page-current {
-            font-weight: 800; font-size: 1.15rem;
-            background: linear-gradient(135deg, var(--lavender), var(--pink));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .page-separator {
-            font-weight: 500; font-size: 1rem; color: var(--lavender-light);
-        }
-        .page-total {
-            font-weight: 600; font-size: 1rem; color: #8a7a9a;
-        }
-        .page-arrow {
-            width: 44px; height: 44px; border-radius: 50%;
-            border: 2px solid rgba(155, 126, 200, 0.2); background: white;
-            color: var(--dark); font-size: 1rem; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
+        .page-num {
+            min-width: 42px; height: 42px; border-radius: 50%;
+            border: 2px solid rgba(155, 126, 200, 0.15); background: white;
+            color: var(--dark-secondary); font-size: 0.95rem; font-weight: 600;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
             transition: all 0.3s; font-family: 'Inter', sans-serif;
-            box-shadow: 0 3px 10px rgba(155, 126, 200, 0.08);
+            box-shadow: 0 2px 8px rgba(155, 126, 200, 0.08);
         }
-        .page-arrow:hover:not(:disabled) {
+        .page-num:hover:not(.active) {
+            border-color: var(--lavender-light);
+            background: rgba(155, 126, 200, 0.08);
+            transform: scale(1.08);
+        }
+        .page-num.active {
             background: linear-gradient(135deg, var(--lavender), var(--pink));
             color: white; border-color: transparent;
-            transform: scale(1.08);
-            box-shadow: 0 6px 20px rgba(155, 126, 200, 0.3);
+            box-shadow: 0 4px 15px rgba(155, 126, 200, 0.35);
+            cursor: default;
+            transform: scale(1.05);
         }
-        .page-arrow:active:not(:disabled) { transform: scale(0.95); }
-        .page-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
+        .page-ellipsis {
+            color: #8a7a9a; font-size: 1.1rem; font-weight: 600;
+            display: flex; align-items: center; user-select: none;
+            padding: 0 0.25rem;
+        }
         .pagination-info {
             display: block; text-align: center; margin-top: 0.6rem;
             font-size: 0.82rem; color: #8a7a9a; font-weight: 500;
+        }
+        /* ===== Scroll to top button ===== */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 997;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--lavender), var(--pink));
+            color: white;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(155, 126, 200, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+        .scroll-top-btn.visible {
+            opacity: 0.85;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .scroll-top-btn:hover {
+            opacity: 1;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(155, 126, 200, 0.5);
+        }
+        .scroll-top-btn:active {
+            transform: scale(0.92);
+        }
+        @media (max-width: 768px) {
+            .scroll-top-btn {
+                width: 38px;
+                height: 38px;
+                bottom: 1rem;
+                right: 1rem;
+                opacity: 0;
+            }
+            .scroll-top-btn.visible {
+                opacity: 0.75;
+            }
+            .scroll-top-btn:hover {
+                opacity: 0.9;
+            }
         }
         /* ===== Contact Section ===== */
         .contact-section {
@@ -547,7 +595,7 @@
         .reveal-delay-4 { transition-delay: 0.4s; }
         /* ===== Notification ===== */
         .cart-notification {
-            position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
+            position: fixed; bottom: 5rem; right: 2rem; z-index: 9999;
             background: linear-gradient(135deg, var(--lavender), var(--pink));
             color: white; padding: 1rem 1.5rem; border-radius: 16px;
             font-weight: 600; font-size: 0.95rem;
@@ -576,14 +624,15 @@
                 padding: 0.6rem 1rem;
                 font-size: 0.8rem;
             }
-            .page-arrow {
-                width: 38px; height: 38px;
+            .page-num {
+                min-width: 36px; height: 36px; font-size: 0.85rem;
             }
-            .page-counter {
-                padding: 0.4rem 1rem;
+            .cart-notification {
+                bottom: 4rem;
+                right: 1rem;
+                font-size: 0.85rem;
+                padding: 0.75rem 1rem;
             }
-            .page-current { font-size: 1.05rem; }
-            .page-total { font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -871,6 +920,10 @@
         </div>
     </div>
 </footer>
+<!-- Scroll to top button -->
+<button class="scroll-top-btn" id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Наверх" aria-label="Вернуться наверх">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+</button>
 <!-- Notification container -->
 <div id="notificationContainer"></div>
 <script>
@@ -1008,6 +1061,15 @@ window.addEventListener('scroll', () => {
         navbar.classList.remove('scrolled');
         navbar.classList.add('at-top');
     }
+    // Scroll to top button visibility
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    if (scrollTopBtn) {
+        if (window.scrollY > 500) {
+            scrollTopBtn.classList.add('visible');
+        } else {
+            scrollTopBtn.classList.remove('visible');
+        }
+    }
 });
 
 // ============ MOBILE MENU ============
@@ -1124,19 +1186,29 @@ function renderPagination(dataArray, currentPageNum, containerId, tabNum) {
         return;
     }
 
-    const html = `
-        <button class="page-arrow" onclick="changePage(${tabNum}, ${currentPageNum - 1})" ${currentPageNum === 0 ? 'disabled' : ''} title="Назад">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        </button>
-        <div class="page-counter">
-            <span class="page-current">${currentPageNum + 1}</span>
-            <span class="page-separator">/</span>
-            <span class="page-total">${totalPages}</span>
-        </div>
-        <button class="page-arrow" onclick="changePage(${tabNum}, ${currentPageNum + 1})" ${currentPageNum === totalPages - 1 ? 'disabled' : ''} title="Вперёд">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-        </button>
-    `;
+    // Build page numbers array with ellipsis for many pages
+    let pages = [];
+    if (totalPages <= 7) {
+        for (let i = 0; i < totalPages; i++) pages.push(i);
+    } else {
+        // Always show first page
+        pages.push(0);
+        if (currentPageNum > 2) pages.push('...');
+        // Pages around current
+        for (let i = Math.max(1, currentPageNum - 1); i <= Math.min(totalPages - 2, currentPageNum + 1); i++) {
+            pages.push(i);
+        }
+        if (currentPageNum < totalPages - 3) pages.push('...');
+        // Always show last page
+        pages.push(totalPages - 1);
+    }
+
+    let html = pages.map(p => {
+        if (p === '...') {
+            return '<span class="page-ellipsis">…</span>';
+        }
+        return `<button class="page-num ${p === currentPageNum ? 'active' : ''}" onclick="changePage(${tabNum}, ${p})">${p + 1}</button>`;
+    }).join('');
 
     container.innerHTML = html;
 
@@ -1172,6 +1244,8 @@ function switchTab(index) {
 }
 
 function toggleCardExpansion(event) {
+    // Only toggle expansion on mobile
+    if (window.innerWidth > 768) return;
     const card = event.target.closest('[data-product-card]');
     if (!card) return;
     if (event.target.closest('.product-cart-btn')) return;
