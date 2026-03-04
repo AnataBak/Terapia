@@ -409,34 +409,34 @@
             animation: none !important;
         }
 
+        /* Flower logo animation */
+        .logo-emoji {
+            display: inline-block;
+            will-change: transform;
+            transition: transform 0.3s ease;
+        }
+        .logo-emoji:hover {
+            transform: scale(1.1) rotate(2deg);
+        }
+        @keyframes flowerSway {
+            0% { transform: rotate(-12deg); }
+            50% { transform: rotate(12deg); }
+            100% { transform: rotate(-12deg); }
+        }
+        .logo-emoji {
+            animation: flowerSway 5s ease-in-out infinite;
+        }
+
+        /* Flower logo animation off in lite mode */
+        body.lite-mode .logo-emoji {
+            animation: none !important;
+            transform: none !important;
+        }
+
         /* Градиентный фон hero — статичный */
         body.lite-mode .hero {
             animation: none !important;
         }
-
-        /* Lite mode indicator banner */
-        .lite-mode-banner {
-            display: none;
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: white;
-            text-align: center;
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1001;
-        }
-        body.lite-mode .lite-mode-banner {
-            display: block;
-        }
-        body.lite-mode .navbar {
-            top: 32px !important;
-        }
-        body.lite-mode .hero {
-            padding-top: 32px;
         }
     </style>
 </head>
@@ -899,15 +899,20 @@ function toggleLiteMode() {
 }
 
 function updateLiteButtons() {
+    const desktopBtn = document.getElementById('liteToggleDesktop');
     const mobileBtn = document.getElementById('liteToggleMobile');
     const heroBtn = document.getElementById('heroLiteBtn');
 
     if (liteMode) {
+        desktopBtn.innerHTML = '✅ Лёгкий режим ВКЛ';
+        desktopBtn.classList.add('active');
         mobileBtn.innerHTML = '✅ Лёгкий режим включён (нажмите чтобы выключить)';
         mobileBtn.classList.add('active');
         heroBtn.innerHTML = '✅ Лёгкий режим включён — сайт работает быстрее';
         heroBtn.classList.add('active');
     } else {
+        desktopBtn.innerHTML = '⚡ Упростить сайт';
+        desktopBtn.classList.remove('active');
         mobileBtn.innerHTML = '⚡ Сайт тормозит? Нажмите — уберём анимации';
         mobileBtn.classList.remove('active');
         heroBtn.innerHTML = '⚡ Сайт медленно работает? Нажмите сюда для ускорения';
