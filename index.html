@@ -156,8 +156,8 @@
             .product-desc { font-size: 0.72rem; line-height: 1.4; }
         }
         .product-card { background: white; border-radius: 20px; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(155, 126, 200, 0.1); position: relative; cursor: pointer; }
-        .product-card:hover { transform: translateY(-10px); box-shadow: 0 25px 60px rgba(155, 126, 200, 0.2); }
-        .product-card.expanded { transform: translateY(-6px) scale(1.02); box-shadow: 0 25px 60px rgba(155, 126, 200, 0.25); }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 25px 60px rgba(155, 126, 200, 0.35), 0 15px 40px rgba(232, 160, 191, 0.25), 0 0 30px rgba(155, 126, 200, 0.2); }
+        .product-card.expanded { transform: translateY(-6px) scale(1.02); box-shadow: 0 25px 60px rgba(155, 126, 200, 0.4), 0 15px 40px rgba(232, 160, 191, 0.3), 0 0 35px rgba(155, 126, 200, 0.25); }
         .product-img { height: 200px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 5rem; }
         .product-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.05), transparent); z-index: 0;}
         .product-badge { position: absolute; top: 12px; left: 12px; padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700; color: white; z-index: 2; }
@@ -184,7 +184,7 @@
         .sparkle-container { position: relative; overflow: hidden; }
         .sparkle-container::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(from 0deg, transparent, rgba(155, 126, 200, 0.08), transparent 30%); animation: sparkleRotate 6s linear infinite; opacity: 0; transition: opacity 0.3s; z-index: 0; }
         .sparkle-container:hover::before { opacity: 1; }
-        @media (max-width: 768px) { .sparkle-container::before { display: none; } .product-card:hover { transform: none; box-shadow: none; } }
+        @media (max-width: 768px) { .sparkle-container::before { display: none; } .product-card:hover { transform: translateY(-6px); box-shadow: 0 15px 40px rgba(155, 126, 200, 0.3), 0 10px 25px rgba(232, 160, 191, 0.2), 0 0 20px rgba(155, 126, 200, 0.15); } }
         @keyframes sparkleRotate { to { transform: rotate(360deg); } }
 
         .pagination { display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin-top: 2rem; flex-wrap: wrap; }
