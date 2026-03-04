@@ -444,7 +444,7 @@
 
 <!-- Lite mode banner -->
 <div class="lite-mode-banner" id="liteModeBanner">
-    ✅ Лёгкий режим включён — анимации отключены, сайт работает быстрее
+    ✅ Сайт работает быстрее — анимации отключены 
 </div>
 
 <!-- Navigation -->
@@ -468,9 +468,6 @@
             </button>
         </div>
         <div class="mobile-controls">
-            <button class="lite-toggle-btn" id="liteToggleMobileSmall" onclick="toggleLiteMode()" title="Упростить сайт" style="padding: 0.4rem 0.7rem; font-size: 0.75rem;">
-                ⚡
-            </button>
             <button class="cart-nav-btn" onclick="scrollToSection(event, 'order')">
                 🛒 <span class="cart-count-badge" id="mobileCartCount">0</span>
             </button>
@@ -902,25 +899,15 @@ function toggleLiteMode() {
 }
 
 function updateLiteButtons() {
-    const desktopBtn = document.getElementById('liteToggleDesktop');
-    const mobileSmallBtn = document.getElementById('liteToggleMobileSmall');
     const mobileBtn = document.getElementById('liteToggleMobile');
     const heroBtn = document.getElementById('heroLiteBtn');
 
     if (liteMode) {
-        desktopBtn.innerHTML = '✅ Лёгкий режим ВКЛ';
-        desktopBtn.classList.add('active');
-        mobileSmallBtn.innerHTML = '✅';
-        mobileSmallBtn.classList.add('active');
         mobileBtn.innerHTML = '✅ Лёгкий режим включён (нажмите чтобы выключить)';
         mobileBtn.classList.add('active');
         heroBtn.innerHTML = '✅ Лёгкий режим включён — сайт работает быстрее';
         heroBtn.classList.add('active');
     } else {
-        desktopBtn.innerHTML = '⚡ Упростить сайт';
-        desktopBtn.classList.remove('active');
-        mobileSmallBtn.innerHTML = '⚡';
-        mobileSmallBtn.classList.remove('active');
         mobileBtn.innerHTML = '⚡ Сайт тормозит? Нажмите — уберём анимации';
         mobileBtn.classList.remove('active');
         heroBtn.innerHTML = '⚡ Сайт медленно работает? Нажмите сюда для ускорения';
