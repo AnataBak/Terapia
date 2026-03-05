@@ -1090,7 +1090,7 @@ function renderOrderCart() {
                         <span style="font-weight: 700; min-width: 24px; text-align: center;">${item.quantity}</span>
                         <button class="qty-btn" onclick="updateQuantity('${item.product.id}', 1)">+</button>
                     </div>
-                    <span style="font-weight: 700; color: var(--lavender); min-width: 70px; text-align: right; font-size: 0.95rem;">${formatNumber(item.product.priceNum * item.quantity)} ₽</span>
+                    <span style="font-weight: 700; color: var(--lavender); min-width: 70px; text-align: right; font-size: 0.95rem;">${formatNumber(item.product.priceNum * item.quantity)} р.</span>
                     <button class="cart-item-remove" onclick="removeFromCart('${item.product.id}')" title="Удалить">✕</button>
                 </div>
             </div>`;
