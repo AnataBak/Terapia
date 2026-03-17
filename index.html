@@ -641,7 +641,7 @@
             <form id="orderForm" onsubmit="handleOrderSubmit(event)">
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
                     <div>
-                        <label style="display: block; margin-bottom: 0.4rem; font-weight: 600; font-size: 0.9rem; color: var(--dark-secondary);">Ваше имя *</label>
+                        <label style="display: block; margin-bottom: 0.4rem; font-weight: 600; font-size: 0.9rem; color: var(--dark-secondary);">Ваше ФИО*</label>
                         <input type="text" name="name" class="order-input" id="orderName" placeholder="Например, Анна" required>
                     </div>
                     <div>
@@ -650,12 +650,12 @@
                     </div>
                 </div>
                 <div style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.4rem; font-weight: 600; font-size: 0.9rem; color: var(--dark-secondary);">Номер телефона *</label>
+                    <label style="display: block; margin-bottom: 0.4rem; font-weight: 600; font-size: 0.9rem; color: var(--dark-secondary);">Номер телефона*</label>
                     <input type="tel" name="phone" class="order-input" id="orderPhone" placeholder="+375 (ХХ) 123-45-67" required>
                 </div>
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; margin-bottom: 0.4rem; font-weight: 600; font-size: 0.9rem; color: var(--dark-secondary);">Комментарий к заказу</label>
-                    <textarea name="message" class="order-input order-textarea" id="orderComment" placeholder="Укажите способ получения заказа (Белпочта, Европочта, самовывоз) и ваши данные при необходимости (ФИО, адрес и т.д.)."></textarea>
+                    <textarea name="message" class="order-input order-textarea" id="orderComment" placeholder="Укажите способ получения заказа (Белпочта, Европочта, самовывоз) и иные сведения."></textarea>
                 </div>
                 <button type="submit" class="order-submit" id="orderSubmitBtn" disabled>🌿 Добавьте товары в корзину</button>
                 <p id="orderHint" style="text-align: center; margin-top: 0.75rem; color: #8a7a9a; font-size: 0.85rem;">Чтобы оформить заказ, сначала добавьте товары в корзину</p>
@@ -1328,6 +1328,14 @@ async function handleOrderSubmit(e) {
     submitBtn.disabled = true;
     submitBtn.textContent = "Отправка заказа... ⏳";
 
+    // --- ГЕНЕРАЦИЯ УНИКАЛЬНОГО НОМЕРА (Только для вас) ---
+    const now = new Date();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const timePart = Date.now().toString().slice(-4);
+    const uniqueOrderNumber = `№${month}${day}-${timePart}`;
+    // ------------------------------------------------------
+
     const itemsList = cart.map(item => 
         `- ${item.product.name}${item.product.badge ? ` [${item.product.badge}]` : ''} (Кол-во: ${item.quantity}, Цена: ${item.product.price} р.)`
     ).join('\n');
@@ -1337,11 +1345,12 @@ async function handleOrderSubmit(e) {
     // Подготовка данных для Static Forms
     const orderData = {
         accessKey: 'sf_g574bgkh1lmidhak7d5592nd', // ВАШ КЛЮЧ
-        subject: 'Новый заказ с сайта Цветочная Терапия',
+        subject: `Заказ ${uniqueOrderNumber} с сайта Цветочная Терапия`, // Номер будет в ТЕМЕ письма
+        $Номер_заказа: uniqueOrderNumber, // Номер будет внутри тела письма
         name: document.getElementById('orderName').value,
         phone: document.getElementById('orderPhone').value,
         message: document.getElementById('orderComment').value,
-        $order_items: itemsList, // $ перед именем делает поле кастомным в письме
+        $order_items: itemsList,
         $total_price: getTotalPrice() + ' р.'
     };
 
@@ -1369,6 +1378,8 @@ async function handleOrderSubmit(e) {
 
             document.getElementById('orderFormCard').style.display = 'none';
             document.getElementById('orderSuccessCard').style.display = 'block';
+            
+            // Клиент видит только текст благодарности без номера заказа
             document.getElementById('orderSuccessInfo').innerHTML = 
                 `Имя: <strong>${name}</strong> | Email: <strong>${emailVal || 'не указан'}</strong> | Телефон: <strong>${phone}</strong>`;
             
