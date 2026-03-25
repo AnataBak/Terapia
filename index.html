@@ -207,12 +207,26 @@
                     .nav-links-desktop { display: none !important; }
                     .mobile-controls { display: flex !important; }
                     .product-img { height: 180px; font-size: 4rem; }
+                    .navbar,
+                    .mobile-dropdown {
+                        backdrop-filter: none !important;
+                        -webkit-backdrop-filter: none !important;
+                        background: rgba(250, 250, 250, 0.98) !important;
+                    }
                 }
 
-                .hero { min-height: 100vh; background: linear-gradient(135deg, #f5e6ff 0%, #ffe0f0 25%, #e0f0ff 50%, #e6ffe0 75%, #f5e6ff 100%); background-size: 400% 400%; animation: gradientShift 12s ease infinite; position: relative; overflow: hidden; will-change: background-position; transform: translateZ(0); -webkit-transform: translateZ(0); }
-                @media (prefers-reduced-motion: reduce) { .hero { animation-duration: 20s; } }
-                @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-                @media (max-width: 768px) { .hero { background-size: 260% 260%; animation-duration: 18s; } }
+                .hero {
+                    min-height: 100vh;
+                    background:
+                        radial-gradient(circle at 18% 18%, rgba(232, 160, 191, 0.32) 0%, rgba(232, 160, 191, 0) 42%),
+                        radial-gradient(circle at 82% 22%, rgba(123, 167, 212, 0.3) 0%, rgba(123, 167, 212, 0) 45%),
+                        radial-gradient(circle at 50% 82%, rgba(142, 205, 168, 0.24) 0%, rgba(142, 205, 168, 0) 48%),
+                        linear-gradient(135deg, #f9efff 0%, #fff3f8 34%, #eef7ff 70%, #f6fff1 100%);
+                    position: relative;
+                    overflow: hidden;
+                    transform: translateZ(0);
+                    -webkit-transform: translateZ(0);
+                }
 
                 .petal { position: absolute; border-radius: 50% 0 50% 50%; opacity: 0; animation: floatPetal linear infinite; pointer-events: none; will-change: transform; }
                 @keyframes floatPetal { 0% { transform: translateY(100vh) rotate(0deg) scale(0); opacity: 0; } 10% { opacity: 0.3; transform: translateY(80vh) rotate(72deg) scale(1); } 90% { opacity: 0.3; } 100% { transform: translateY(-100px) rotate(720deg) scale(0.5); opacity: 0; } }
@@ -793,7 +807,46 @@
     ];
 
         const panicleVarieties = [
-            { id: "pan-1", name: "Скоро в продаже", desc: "На данный момент подращиваются, за актуальной информацией звоните", price: "от 15", priceNum: 15, badge: "Скоро", badgeColor: "#E8A0BF", bg: "linear-gradient(135deg, #ffe0f0, #f5e6ff)", emoji: "⏳" },
+            { id: "pan-1", name: "Peppermint (Пепперминт)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Peppermint (Пепперминт).png\" alt=\"Peppermint (Пепперминт)\" class=\"product-actual-img\">" },
+            { id: "pan-2", name: "Feather Hot Pink (Физер Хот Пинк)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Feather Hot Pink (Физер Хот Пинк).jpg\" alt=\"Feather Hot Pink (Физер Хот Пинк)\" class=\"product-actual-img\">" },
+            { id: "pan-3", name: "Magical Revolution (Мэджикал Революшн)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Magical Revolution (Мэджикал Революшн).webp\" alt=\"Magical Revolution (Мэджикал Революшн)\" class=\"product-actual-img\">" },
+            { id: "pan-4", name: "Florentina (Флорентина)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Florentina (Флорентина).jpg\" alt=\"Florentina (Флорентина)\" class=\"product-actual-img\">" },
+            { id: "pan-5", name: "Magical Greenfire (Мэджикал Гринфаер)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Magical Greenfire (Мэджикал Гринфаер).webp\" alt=\"Magical Greenfire (Мэджикал Гринфаер)\" class=\"product-actual-img\">" },
+            { id: "pan-6", name: "FairyTrail White (Фэйритрэйл Вайт)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/FairyTrail White (Фэйритрэйл Вайт).jpg\" alt=\"FairyTrail White (Фэйритрэйл Вайт)\" class=\"product-actual-img\">" },
+            { id: "pan-7", name: "FairyTrail Green (Фэйритрэйл Грин)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/FairyTrail Green (Фэйритрэйл Грин).jpg\" alt=\"FairyTrail Green (Фэйритрэйл Грин)\" class=\"product-actual-img\">" },
+            { id: "pan-8", name: "Mata Hari (Мата Хари)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Mata Hari (Мата Хари).jpg\" alt=\"Mata Hari (Мата Хари)\" class=\"product-actual-img\">" },
+            { id: "pan-9", name: "Baladia Purple (Баладиа Перпл)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Baladia Purple (Баладиа Перпл).webp\" alt=\"Baladia Purple (Баладиа Перпл)\" class=\"product-actual-img\">" },
+            { id: "pan-10", name: "Rembrandt Bella Pesche (Рембрандт Белла Пич)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Rembrandt Bella Pesche (Рембрандт Белла Пич).webp\" alt=\"Rembrandt Bella Pesche (Рембрандт Белла Пич)\" class=\"product-actual-img\">" },
+            { id: "pan-11", name: "Black Knight (Черный Рыцарь)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Black Knight (Черный Рыцарь).jpg\" alt=\"Black Knight (Черный Рыцарь)\" class=\"product-actual-img\">" },
+            { id: "pan-12", name: "Fay Pink (Фэй Пинк)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Fay Pink (Фэй Пинк).png\" alt=\"Fay Pink (Фэй Пинк)\" class=\"product-actual-img\">" },
+            { id: "pan-13", name: "Dark Angel (Дарк Энджел)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Dark Angel (Дарк Энджел).jpg\" alt=\"Dark Angel (Дарк Энджел)\" class=\"product-actual-img\">" },
+            { id: "pan-14", name: "Double Dutch Pink (Дабл Дач Пинк)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Double Dutch Pink (Дабл Дач Пинк).webp\" alt=\"Double Dutch Pink (Дабл Дач Пинк)\" class=\"product-actual-img\">" },
+            { id: "pan-15", name: "Francy Hot Pink (Фрэнси Хот Пинк)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Francy Hot Pink (Фрэнси Хот Пинк).jpg\" alt=\"Francy Hot Pink (Фрэнси Хот Пинк)\" class=\"product-actual-img\">" },
+            { id: "pan-16", name: "Fleurine Blue (Флеурин Блю)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Fleurine Blue (Флеурин Блю).jpg\" alt=\"Fleurine Blue (Флеурин Блю)\" class=\"product-actual-img\">" },
+            { id: "pan-17", name: "Florencia (Флоренсия)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Florencia (Флоренсия).jpg\" alt=\"Florencia (Флоренсия)\" class=\"product-actual-img\">" },
+            { id: "pan-18", name: "Curly Sparkle Hot Pink (Керли Спаркл Хот Пинк)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Curly Sparkle Hot Pink (Керли Спаркл Хот Пинк).jpg\" alt=\"Curly Sparkle Hot Pink (Керли Спаркл Хот Пинк)\" class=\"product-actual-img\">" },
+            { id: "pan-19", name: "Frozen Smoothie (Фрозен Смузи)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Frozen Smoothie (Фрозен Смузи).jpg\" alt=\"Frozen Smoothie (Фрозен Смузи)\" class=\"product-actual-img\">" },
+            { id: "pan-20", name: "Angel Wings (Анджел Вингс)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Angel Wings (Анджел Вингс).jpg\" alt=\"Angel Wings (Анджел Вингс)\" class=\"product-actual-img\">" },
+            { id: "pan-21", name: "Wedding Gown (Вединг Гроун)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Wedding Gown (Вединг Гроун).jpg\" alt=\"Wedding Gown (Вединг Гроун)\" class=\"product-actual-img\">" },
+            { id: "pan-22", name: "Candy Lips Hot Pink (Кэнди Липс Хот Пинк)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Candy Lips Hot Pink (Кэнди Липс Хот Пинк).jpg\" alt=\"Candy Lips Hot Pink (Кэнди Липс Хот Пинк)\" class=\"product-actual-img\">" },
+            { id: "pan-23", name: "Saxon Candy Heart Pink (Саксон Кэнди Харт Пинк)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Saxon Candy Heart Pink (Саксон Кэнди Харт Пинк).webp\" alt=\"Saxon Candy Heart Pink (Саксон Кэнди Харт Пинк)\" class=\"product-actual-img\">" },
+            { id: "pan-24", name: "French Bolero (Френч Болеро)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/French Bolero (Френч Болеро).webp\" alt=\"French Bolero (Френч Болеро)\" class=\"product-actual-img\">" },
+            { id: "pan-25", name: "Camilla (Камилла)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Camilla (Камилла).jpg\" alt=\"Camilla (Камилла)\" class=\"product-actual-img\">" },
+            { id: "pan-26", name: "You & Me Love (Ю энд Ми Лав)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/You & Me Love (Ю энд Ми Лав).jpg\" alt=\"You & Me Love (Ю энд Ми Лав)\" class=\"product-actual-img\">" },
+            { id: "pan-27", name: "You & Me Together (Ю энд Ми Тугезе)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/You & Me Together (Ю энд Ми Тугезе).webp\" alt=\"You & Me Together (Ю энд Ми Тугезе)\" class=\"product-actual-img\">" },
+            { id: "pan-28", name: "Tiffany Purple (Тиффани Перпл)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Tiffany Purple (Тиффани Перпл).webp\" alt=\"Tiffany Purple (Тиффани Перпл)\" class=\"product-actual-img\">" },
+            { id: "pan-29", name: "Tabletensia Purple (Таблетензия Перпл)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Tabletensia Purple (Таблетензия Перпл).jpg\" alt=\"Tabletensia Purple (Таблетензия Перпл)\" class=\"product-actual-img\">" },
+            { id: "pan-30", name: "Ankong (Анконг)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Ankong (Анконг).webp\" alt=\"Ankong (Анконг)\" class=\"product-actual-img\">" },
+            { id: "pan-31", name: "Mars (Марс)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Mars (Марс).jpg\" alt=\"Mars (Марс)\" class=\"product-actual-img\">" },
+            { id: "pan-32", name: "Schloss Wackerbarth (Шлосс Вакербарт)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Schloss Wackerbarth (Шлосс Вакербарт).webp\" alt=\"Schloss Wackerbarth (Шлосс Вакербарт)\" class=\"product-actual-img\">" },
+            { id: "pan-33", name: "Princess Diana (Принцесса Диана)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Princess Diana (Принцесса Диана).jpg\" alt=\"Princess Diana (Принцесса Диана)\" class=\"product-actual-img\">" },
+            { id: "pan-34", name: "Frisbee Purple (Фрисби Перпл)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Frisbee Purple (Фрисби Перпл).png\" alt=\"Frisbee Purple (Фрисби Перпл)\" class=\"product-actual-img\">" },
+            { id: "pan-35", name: "Schneeball (Шнеебол)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Schneeball (Шнеебол).jpg\" alt=\"Schneeball (Шнеебол)\" class=\"product-actual-img\">" },
+            { id: "pan-36", name: "French Cancan (Френч Канкан)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/French Cancan (Френч Канкан).jpg\" alt=\"French Cancan (Френч Канкан)\" class=\"product-actual-img\">" },
+            { id: "pan-37", name: "Avantgarde (Авангард)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Avantgarde (Авангард).jpg\" alt=\"Avantgarde (Авангард)\" class=\"product-actual-img\">" },
+            { id: "pan-38", name: "Selma (Сельма)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Selma (Сельма).jpg\" alt=\"Selma (Сельма)\" class=\"product-actual-img\">" },
+            { id: "pan-39", name: "Schloss Zuschendorf (Шлосс Цукендорф)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Schloss Zuschendorf (Шлосс Цукендорф).jpg\" alt=\"Schloss Zuschendorf (Шлосс Цукендорф)\" class=\"product-actual-img\">" },
+            { id: "pan-40", name: "Switch Kassiopeia Blue (Свитч Кассиопея Блю)", desc: "", price: "0", priceNum: 0, badge: "На размножении", badgeColor: "#34b328", emoji: "<img src=\"img/gor/Switch Kassiopeia Blue (Свитч Кассиопея Блю).jpg\" alt=\"Switch Kassiopeia Blue (Свитч Кассиопея Блю)\" class=\"product-actual-img\">" },
         ];
 
         const macrophyllaVarieties = [
@@ -902,6 +955,7 @@
         let mobileMenuOpen = false;
         let liteMode = false;
         let favorites = [];
+        let revealObserver = null;
 
         function getAllProducts() { return [...bestProducts, ...panicleVarieties, ...macrophyllaVarieties]; }
         function findProductById(id) { return getAllProducts().find(p => p.id === id); }
@@ -1187,11 +1241,30 @@
 
         function revealOnScroll() {
             if (liteMode) return;
-            document.querySelectorAll('.reveal').forEach(el => {
-                if (el.getBoundingClientRect().top < window.innerHeight - 100) {
-                    el.classList.add('visible');
-                }
-            });
+            const revealElements = document.querySelectorAll('.reveal:not(.visible)');
+            if (!revealElements.length) return;
+
+            if (!('IntersectionObserver' in window)) {
+                revealElements.forEach(el => el.classList.add('visible'));
+                return;
+            }
+
+            if (!revealObserver) {
+                revealObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    root: null,
+                    rootMargin: '0px 0px -100px 0px',
+                    threshold: 0.05
+                });
+            }
+
+            revealElements.forEach(el => revealObserver.observe(el));
         }
 
         function createCard(product) {
@@ -1405,7 +1478,6 @@
             revealOnScroll();
             document.addEventListener('click', toggleCardExpansion);
         });
-        window.addEventListener('scroll', revealOnScroll);
 
         // При загрузке страницы показываем вкладку "Метельчатые гортензии" по умолчанию
         switchTab(2);
